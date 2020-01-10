@@ -1,11 +1,12 @@
 Name:           lz4
 Version:        1.7.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Extremely fast compression algorithm
 
 License:        GPLv2+ and BSD
 URL:            https://lz4.github.io/lz4/
 Source0:        https://github.com/Cyan4973/lz4/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch1: lz4-1.7.5-dont-change-dev-null.patch
 
 %description
 LZ4 is an extremely fast loss-less compression algorithm, providing compression
@@ -29,7 +30,7 @@ LZ4 is an extremely fast loss-less compression algorithm. This package
 contains static libraries for static linking of applications.
 
 %prep
-%autosetup
+%autosetup -p1 -v
 echo '#!/bin/sh' > ./configure
 chmod +x ./configure
 
@@ -68,6 +69,10 @@ chmod +x ./configure
 %{_libdir}/liblz4.a
 
 %changelog
+* Tue Mar 12 2019 Jakub Martisko <jamartis@rehat.com> - 1.7.5-3
+- Fix: lz4 -t corrupts /dev/null permissions
+- Resolves: #1680671
+
 * Wed Sep 27 2017 Jakub Martisko <jamartis@rehat.com> - 1.7.5-1 - 2
 - Initial RHEL release
 
